@@ -4,11 +4,11 @@
 import argparse
 from pathlib import Path
 
-from indiclegalslm.data.cleaning import clean_jsonl
-from indiclegalslm.data.constitution_ingest import ingest_constitution
-from indiclegalslm.data.instruct_builder import build_instruct_from_articles
-from indiclegalslm.data.splits import write_splits
-from indiclegalslm.utils.config import load_config
+from ananya.data.cleaning import clean_jsonl
+from ananya.data.constitution_ingest import ingest_constitution
+from ananya.data.instruct_builder import build_instruct_from_articles
+from ananya.data.splits import write_splits
+from ananya.utils.config import load_config
 
 
 def main():
