@@ -5,11 +5,11 @@ from __future__ import annotations
 import uuid
 from typing import Any, Iterator
 
-from indiclegalslm.schemas.datasets import InstructionRecord, LanguageCode, SourceMetadata, SourceType
-from indiclegalslm.utils.io import read_jsonl, write_jsonl
+from ananya.schemas.datasets import InstructionRecord, LanguageCode, SourceMetadata, SourceType
+from ananya.utils.io import read_jsonl, write_jsonl
 
 SYSTEM_PROMPT = (
-    "You are IndicLegalSLM, a sovereign Indian constitutional assistant. "
+    "You are Ananya, a sovereign Indian constitutional assistant. "
     "Answer using only constitutionally grounded reasoning. Cite article numbers. "
     "If uncertain, say you do not know."
 )

@@ -7,8 +7,8 @@ import uuid
 from pathlib import Path
 from typing import Any, Iterator
 
-from indiclegalslm.schemas.datasets import LanguageCode, PretrainRecord, SourceMetadata, SourceType
-from indiclegalslm.utils.io import write_jsonl
+from ananya.schemas.datasets import LanguageCode, PretrainRecord, SourceMetadata, SourceType
+from ananya.utils.io import write_jsonl
 
 
 def load_constitution_json(path: Path) -> list[dict[str, Any]]:

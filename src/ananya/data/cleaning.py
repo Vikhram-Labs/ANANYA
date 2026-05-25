@@ -7,7 +7,7 @@ import re
 import unicodedata
 from typing import Any, Callable
 
-from indiclegalslm.utils.io import read_jsonl, write_jsonl
+from ananya.utils.io import read_jsonl, write_jsonl
 
 
 def normalize_unicode(text: str) -> str:

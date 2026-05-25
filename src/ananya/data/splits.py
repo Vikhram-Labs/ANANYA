@@ -9,7 +9,7 @@ from typing import Any
 
 from datasets import Dataset, DatasetDict
 
-from indiclegalslm.utils.io import read_jsonl, write_jsonl
+from ananya.utils.io import read_jsonl, write_jsonl
 
 
 def stratified_split(

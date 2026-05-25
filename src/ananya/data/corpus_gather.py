@@ -5,10 +5,10 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from indiclegalslm.data.constitution_ingest import ingest_constitution
-from indiclegalslm.data.cleaning import clean_jsonl
-from indiclegalslm.data.splits import write_splits
-from indiclegalslm.utils.logging import get_logger
+from ananya.data.constitution_ingest import ingest_constitution
+from ananya.data.cleaning import clean_jsonl
+from ananya.data.splits import write_splits
+from ananya.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
