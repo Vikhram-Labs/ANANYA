@@ -44,7 +44,7 @@ class PretrainRecord(BaseModel):
     id: str
     text: str
     language: LanguageCode
-    article: int | None = None
+    article: str | None = None
     part: str | None = None
     schedule: str | None = None
     title: str | None = None
@@ -67,7 +67,7 @@ class InstructionRecord(BaseModel):
     messages: list[dict[str, str]]
     task: str  # constitutional_qa | summarization | reasoning | comparison
     language: LanguageCode
-    article: int | None = None
+    article: str | None = None
     source: SourceMetadata
     difficulty: str | None = None
     references: list[str] = Field(default_factory=list)
@@ -90,7 +90,7 @@ class RetrievalRecord(BaseModel):
     chunk_id: str
     text: str
     language: LanguageCode
-    article: int | None
+    article: str | None
     title: str | None
     part: str | None
     embedding_model: str | None = None
@@ -106,7 +106,7 @@ class EvaluationRecord(BaseModel):
     question: str
     reference_answer: str
     language: LanguageCode
-    article: int | None = None
+    article: str | None = None
     choices: list[str] | None = None
     evidence_ids: list[str] = Field(default_factory=list)
     rubric: dict[str, Any] | None = None
@@ -119,6 +119,6 @@ class AlignmentRecord(BaseModel):
     align_id: str
     en_text: str
     translations: dict[LanguageCode, str]
-    article: int | None
+    article: str | None
     glossary_locked: bool = True
     source: SourceMetadata

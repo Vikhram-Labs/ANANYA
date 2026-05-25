@@ -50,12 +50,12 @@ def articles_to_pretrain_records(
         language=language,
     )
     for art in articles:
-        article_num = int(art.get("article", art.get("number", 0)))
+        article_num = str(art.get("article", art.get("number", "")))
         title = art.get("title", "")
         desc = art.get("description", art.get("content", ""))
         text = f"Article {article_num}: {title}\n\n{desc}".strip()
         yield PretrainRecord(
-            id=f"const-en-{article_num:03d}",
+            id=f"const-en-{article_num}",
             text=text,
             language=language,
             article=article_num,
