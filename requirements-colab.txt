@@ -1,6 +1,10 @@
 # Colab T4 optimized stack — install in order on fresh runtime
 # !pip install -q -r requirements-colab.txt
 
+opentelemetry-api==1.38.0
+opentelemetry-sdk==1.38.0
+opentelemetry-exporter-otlp-proto-common==1.38.0
+
 torch>=2.2.0
 transformers>=4.44.0
 datasets>=2.20.0
