@@ -1,0 +1,44 @@
+# Bilingual legal terminology — do not auto-translate these spans
+# Used by translation pipeline for mask-and-restore
+
+terms:
+  - en: Constitution of India
+    hi: भारत का संविधान
+    ta: இந்திய அரசியலமைப்பு
+    bn: ভারতের সংবিধান
+    te: భారతదేశ రాజ్యాంగం
+    mr: भारताचे राज्यघटन
+
+  - en: Fundamental Rights
+    hi: मौलिक अधिकार
+    ta: அடிப்படை உரிமைகள்
+    bn: মৌলিক অধিকার
+    te: ప్రాథమిక హక్కులు
+    mr: मूलभूत हक्क
+
+  - en: Directive Principles
+    hi: नीति निर्देशक तत्त्व
+    ta: அரசு நெறிமுறைக் கோட்பாடுகள்
+    bn: নীতিনির্দেশক নীতি
+    te: దిశానిర్దేశక సూత్రాలు
+    mr: धोरणात्मक तत्त्वे
+
+  - en: Supreme Court
+    hi: सर्वोच्च न्यायालय
+    ta: உச்ச நீதிமன்றம்
+    bn: সুপ্রিম কোর্ট
+    te: సుప్రీం కోర్టు
+    mr: सर्वोच्च न्यायालय
+
+  - en: Parliament
+    hi: संसद
+    ta: நாடாளுமன்றம்
+    bn: সংসদ
+    te: పార్లమెంట్
+    mr: संसद
+
+protected_patterns:
+  - "Article\\s+\\d+[A-Z]?"
+  - "Art\\.\\s*\\d+[A-Z]?"
+  - "Schedule\\s+[IVXLC]+"
+  - "Part\\s+[IVXLC]+"

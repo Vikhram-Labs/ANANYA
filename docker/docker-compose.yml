@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../data/indices:/data/indices:ro
+      - ../outputs/checkpoints:/models:ro
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - MODEL_PATH=/models/sft/final
+      - RAG_INDEX=/data/indices/constitution
+  gradio:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: ["python", "apps/gradio_demo.py"]
+    ports:
+      - "7860:7860"
+    environment:
+      - MODEL_PATH=/models/sft/final
+      - RAG_INDEX=/data/indices/constitution

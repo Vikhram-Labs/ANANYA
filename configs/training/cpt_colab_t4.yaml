@@ -1,0 +1,29 @@
+# Continued pretraining — Colab T4 (15GB VRAM)
+extends: ../base.yaml
+
+stage: continued_pretraining
+objective: causal_lm
+
+model:
+  name: Qwen/Qwen2.5-1.5B-Instruct
+  max_seq_length: 1024
+
+dataset:
+  path: data/splits/pretrain
+  text_field: text
+  packing: true
+
+hyperparameters:
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 16
+  num_train_epochs: 1
+  learning_rate: 5.0e-5
+  lr_scheduler_type: cosine
+  max_steps: 3000
+  save_total_limit: 2
+
+memory:
+  load_in_4bit: true
+  gradient_checkpointing: true
+  use_unsloth: true
+  torch_dtype: bfloat16

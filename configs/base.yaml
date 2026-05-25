@@ -1,0 +1,87 @@
+project:
+  name: ananya
+  version: "0.1.0"
+  seed: 42
+
+languages:
+  priority: [hi, ta, bn, te, mr]
+  source: en
+  iso_map:
+    hi: hindi
+    ta: tamil
+    bn: bengali
+    te: telugu
+    mr: marathi
+    en: english
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  splits: data/splits
+  indices: data/indices
+  checkpoints: outputs/checkpoints
+  merged: outputs/merged
+  gguf: outputs/gguf
+  reports: outputs/reports
+
+constitution:
+  package: indianconstitution
+  article_fields: [article, title, description]
+  chunk_max_tokens: 512
+  chunk_overlap: 64
+
+translation:
+  engine: indictrans2
+  batch_size: 8
+  max_retries: 3
+  cache_dir: data/cache/translation_memory
+  glossary_path: configs/glossary/legal_terms.yaml
+  preserve_articles: true
+
+training:
+  base_models:
+    - Qwen/Qwen2.5-1.5B-Instruct
+    - Qwen/Qwen2.5-3B-Instruct
+    - microsoft/Phi-3-mini-4k-instruct
+  default_base: Qwen/Qwen2.5-1.5B-Instruct
+  load_in_4bit: true
+  bnb_4bit_compute_dtype: bfloat16
+  bnb_4bit_quant_type: nf4
+  use_gradient_checkpointing: true
+  optim: paged_adamw_8bit
+  max_seq_length: 2048
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 8
+  learning_rate: 2.0e-4
+  warmup_ratio: 0.03
+  num_train_epochs: 3
+  logging_steps: 10
+  save_steps: 200
+  eval_steps: 200
+  lora:
+    r: 16
+    lora_alpha: 32
+    lora_dropout: 0.05
+    target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+    bias: none
+    task_type: CAUSAL_LM
+
+rag:
+  embedding_model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+  vector_store: faiss
+  top_k: 5
+  chunk_size: 400
+  chunk_overlap: 50
+  citation_template: "[Art. {article}] {title}"
+
+evaluation:
+  benchmarks_dir: benchmarks
+  metrics: [exact_match, f1, rouge_l, bleu, retrieval_recall@k, hallucination_rate]
+  retrieval_k: [1, 3, 5, 10]
+
+huggingface:
+  org: ${HF_ORG}
+  dataset_repo: ${HF_DATASET_REPO}
+  model_repo: ${HF_MODEL_REPO}
+  private: false
+  push_checkpoints: true
