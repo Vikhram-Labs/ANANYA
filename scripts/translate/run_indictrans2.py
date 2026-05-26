@@ -20,20 +20,15 @@ def main() -> None:
     parser.add_argument("--model", default="ai4bharat/indictrans2-en-indic-1B")
     args = parser.parse_args()
 
-    print(f"DEBUG: Input args parsed. Output path: {args.output}")
     cfg = load_config(args.config)
     glossary = cfg["translation"]["glossary_path"]
 
     # In Colab: replace stub with real IndicTrans2 inference
     try:
-        print("DEBUG: Calling make_indictrans2_translator...")
         translator = make_indictrans2_translator(args.model)
-        print("DEBUG: Successfully created translator!")
-    except Exception as e:
-        print(f"DEBUG: Exception in make_indictrans2_translator: {e}")
+    except NotImplementedError:
         translator = None
 
-    print("DEBUG: Initializing TranslationPipeline...")
     pipe = TranslationPipeline(
         glossary_path=glossary,
         cache_dir=cfg["translation"]["cache_dir"],
@@ -42,20 +37,13 @@ def main() -> None:
         translator=translator,
     )
     
-    print(f"DEBUG: Starting build_parallel_corpus on {args.input}...")
-    try:
-        count = pipe.build_parallel_corpus(
-            Path(args.input),
-            Path(args.output),
-            target_langs=args.langs,
-            text_field=args.text_field,
-        )
-        print(f"Wrote {count} alignment records to {args.output}")
-    except Exception as e:
-        print(f"DEBUG: Exception in build_parallel_corpus: {e}")
-        raise
+    count = pipe.build_parallel_corpus(
+        Path(args.input),
+        Path(args.output),
+        target_langs=args.langs,
+        text_field=args.text_field,
+    )
+    print(f"Wrote {count} alignment records to {args.output}")
 
 if __name__ == "__main__":
-    print("DEBUG: Script started!")
     main()
-    print("DEBUG: Script finished perfectly!")
