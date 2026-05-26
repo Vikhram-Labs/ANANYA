@@ -15,8 +15,8 @@ SYSTEM_PROMPT = (
 )
 
 
-def _article_fields(article: dict[str, Any]) -> tuple[int, str, str]:
-    num = int(article["article"])
+def _article_fields(article: dict[str, Any]) -> tuple[str, str, str]:
+    num = str(article["article"])
     title = article.get("title", "")
     desc = article.get("description") or article.get("text", "")
     if desc.startswith(f"Article {num}"):
