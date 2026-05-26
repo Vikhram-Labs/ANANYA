@@ -122,23 +122,35 @@ class TranslationPipeline:
 
 def make_indictrans2_translator(model_name: str = "ai4bharat/indictrans2-en-indic-1B"):
     """Factory for IndicTrans2 using HuggingFace and IndicTransToolkit."""
+    print("DEBUG-TRANSLATOR: Importing torch...")
     import torch
 
     # Monkeypatch for transformers compatibility with indictranstoolkit
+    print("DEBUG-TRANSLATOR: Monkeypatching transformers...")
     import transformers.tokenization_utils
     import transformers.tokenization_utils_base
     if not hasattr(transformers.tokenization_utils, "PreTrainedTokenizerBase"):
         transformers.tokenization_utils.PreTrainedTokenizerBase = transformers.tokenization_utils_base.PreTrainedTokenizerBase
 
+    print("DEBUG-TRANSLATOR: Importing IndicProcessor...")
     from IndicTransToolkit.processor import IndicProcessor
+    print("DEBUG-TRANSLATOR: Importing transformers...")
     from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"DEBUG-TRANSLATOR: Device selected: {device}. Loading model {model_name}...")
     logger.info(f"Loading IndicTrans2 model: {model_name} on {device}")
+    
+    print("DEBUG-TRANSLATOR: Initializing IndicProcessor...")
     ip = IndicProcessor(inference=True)
+    
+    print("DEBUG-TRANSLATOR: Loading AutoTokenizer...")
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+    
+    print("DEBUG-TRANSLATOR: Loading AutoModelForSeq2SeqLM... (this might take a while)")
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name, trust_remote_code=True).to(device)
     model.eval()
+    print("DEBUG-TRANSLATOR: Model successfully loaded into memory!")
 
     def _translate(texts: list[str], src: str, tgt: str) -> list[str]:
         if not texts:
