@@ -123,6 +123,13 @@ class TranslationPipeline:
 def make_indictrans2_translator(model_name: str = "ai4bharat/indictrans2-en-indic-1B"):
     """Factory for IndicTrans2 using HuggingFace and IndicTransToolkit."""
     import torch
+
+    # Monkeypatch for transformers compatibility with indictranstoolkit
+    import transformers.tokenization_utils
+    import transformers.tokenization_utils_base
+    if not hasattr(transformers.tokenization_utils, "PreTrainedTokenizerBase"):
+        transformers.tokenization_utils.PreTrainedTokenizerBase = transformers.tokenization_utils_base.PreTrainedTokenizerBase
+
     from IndicTransToolkit.processor import IndicProcessor
     from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
