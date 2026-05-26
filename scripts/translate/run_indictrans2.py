@@ -23,11 +23,8 @@ def main() -> None:
     cfg = load_config(args.config)
     glossary = cfg["translation"]["glossary_path"]
 
-    # In Colab: replace stub with real IndicTrans2 inference
-    try:
-        translator = make_indictrans2_translator(args.model)
-    except NotImplementedError:
-        translator = None
+    # In Colab: use real IndicTrans2 inference
+    translator = make_indictrans2_translator(args.model)
 
     pipe = TranslationPipeline(
         glossary_path=glossary,
