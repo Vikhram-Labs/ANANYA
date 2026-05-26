@@ -120,14 +120,35 @@ class TranslationPipeline:
         return write_jsonl(output_jsonl, alignments)
 
 
-def make_indictrans2_translator(model_name: str = "ai4bharat/indictrans2-indic-en-1B"):
-    """Factory for IndicTrans2 — call from Colab after installing indic-trans2."""
+def make_indictrans2_translator(model_name: str = "ai4bharat/indictrans2-en-indic-1B"):
+    """Factory for IndicTrans2 using HuggingFace and IndicTransToolkit."""
+    import torch
+    from IndicTransToolkit.processor import IndicProcessor
+    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    logger.info(f"Loading IndicTrans2 model: {model_name} on {device}")
+    ip = IndicProcessor(inference=True)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name, trust_remote_code=True).to(device)
+    model.eval()
 
     def _translate(texts: list[str], src: str, tgt: str) -> list[str]:
-        # Placeholder hook — users wire AI4Bharat inference here
-        # from indictrans import IndicTransToolkit
-        raise NotImplementedError(
-            f"Wire IndicTrans2 inference for {model_name}. See scripts/translate/run_indictrans2.py"
-        )
+        if not texts:
+            return []
+        src_lang = LANG_MAP.get(src, src)
+        tgt_lang = LANG_MAP.get(tgt, tgt)
+
+        batch = ip.preprocess_batch(texts, src_lang=src_lang, tgt_lang=tgt_lang)
+        inputs = tokenizer(
+            batch, padding="longest", truncation=True, max_length=256, return_tensors="pt"
+        ).to(device)
+
+        with torch.inference_mode():
+            outputs = model.generate(**inputs, num_beams=5, num_return_sequences=1, max_length=256)
+
+        decoded_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True)
+        translations = ip.postprocess_batch(decoded_outputs, lang=tgt_lang)
+        return translations
 
     return _translate

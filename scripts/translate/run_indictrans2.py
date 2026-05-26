@@ -17,7 +17,7 @@ def main() -> None:
     parser.add_argument("--output", required=True)
     parser.add_argument("--langs", nargs="+", default=["hi", "ta", "bn", "te", "mr"])
     parser.add_argument("--text-field", default="text")
-    parser.add_argument("--model", default="ai4bharat/indictrans2-indic-en-1B")
+    parser.add_argument("--model", default="ai4bharat/indictrans2-en-indic-1B")
     args = parser.parse_args()
 
     cfg = load_config(args.config)

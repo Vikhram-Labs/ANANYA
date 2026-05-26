@@ -64,7 +64,7 @@ train = [
   "wandb>=0.17.0",
 ]
 translate = [
-  "indic-trans-toolkit",
+  "indictranstoolkit",
   "sacremoses>=0.1.0",
 ]
 rag-gpu = ["faiss-gpu>=1.8.0"]
